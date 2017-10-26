@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Form, { Input, Fieldset } from 'react-bootstrap-form';
 
 import createBrowserHistory from 'history/createBrowserHistory';
 
@@ -8,6 +9,9 @@ export default class NavBar extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      value: ''
+    };
     // notifications may go into dropdown
 
     this.handleClickLogout = (e) => {
@@ -20,6 +24,18 @@ export default class NavBar extends Component {
       window.location.reload();
     }
 
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    alert(this.state.value)
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
   render() {
@@ -35,15 +51,15 @@ export default class NavBar extends Component {
             <Nav>
               <NavItem>
                 <Navbar.Form pullLeft>
-                  <FormGroup>
-                    <FormControl type="text" placeholder="Search" />
+                  <FormGroup role="form">
+                    <FormControl type="text" placeholder="Search" value={this.state.value} onChange={this.handleChange}/>
+                    <Button type="submit" onClick={this.handleSubmit}>Submit</Button>
                   </FormGroup>
-                  <Button type="submit">Submit</Button>
                 </Navbar.Form>
               </NavItem>
               <NavItem>
                 <Navbar.Form pullLeft>
-                  <Button type="submit">Browse</Button>
+                  <Button type="submit" onClick={()=> alert('cool')}>Browse</Button>
                 </Navbar.Form>
               </NavItem>
             </Nav>
