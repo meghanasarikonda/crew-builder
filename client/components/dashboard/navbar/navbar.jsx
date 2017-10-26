@@ -11,22 +11,22 @@ export default class NavBar extends Component {
     super(props);
     this.state = {
       value: ''
-    };
+  };
     // notifications may go into dropdown
 
-    this.handleClickLogout = (e) => {
-      e.preventDefault();
-      localStorage.removeItem('id_token');
-      // access BrowserRouter history
-      const customHistory = createBrowserHistory();
-      // push root '/' path and reload window
-      customHistory.push('/');
-      window.location.reload();
-    }
+  this.handleSubmit = this.handleSubmit.bind(this);
+  this.handleChange = this.handleChange.bind(this);
+  this.handleClickLogout = this.handleClickLogout.bind(this);
+  }
 
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+  handleClickLogout(e) {
+    e.preventDefault();
+    localStorage.removeItem('id_token');
+    // access BrowserRouter history
+    const customHistory = createBrowserHistory();
+    // push root '/' path and reload window
+    customHistory.push('/');
+    window.location.reload();
   }
 
   handleSubmit(e) {
