@@ -22,7 +22,7 @@ export default class Main extends Component {
       <div>
         <Switch>
           <Route path="/dashboard/crews" render={(props) => (
-          <CrewView {...props}
+          <CrewLeaderView {...props}
             user={this.props.user}
             getCurrentCrews={this.props.getCurrentCrews}
             getUserTasks={this.props.getUserTasks}

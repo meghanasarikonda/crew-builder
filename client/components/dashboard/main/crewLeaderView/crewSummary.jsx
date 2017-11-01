@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Media, Image, Modal } from 'react-bootstrap';
+import { Media, Modal } from 'react-bootstrap';
 // import editForm from './../../forms/createCrew.jsx'
+import { Image, Transformation } from 'cloudinary-react';
 import CreateCrew from './../../forms/createCrew.jsx'
 
 export default class crewLeaderSummary extends Component {
@@ -27,7 +28,9 @@ export default class crewLeaderSummary extends Component {
       <div>
         <Media>
           <Media.Left>
-            <Image src={this.props.currentCrew.image} alt='Image'/>
+            <Image src={this.props.currentCrew.image} alt='Image'>
+              <Transformation width="300" height="100" />
+            </Image>
           </Media.Left>
           <Media.Body>
             <Media.Heading>
