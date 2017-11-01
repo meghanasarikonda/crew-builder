@@ -12,30 +12,32 @@ export default class CreateCrew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uploadedFileCloudinaryUrl: ''
+      uploadedFileCloudinaryUrl: '',
     }
     // props contain name and unique details of user, so we can keep track of who created this crew  and store it in database accordingly
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log(this.name)
-    console.log(this.desc);
-    console.log(this.img)
-    var obj = {
-      name: this.name.value,
-      description: this.description.value,
-      image: this.state.uploadedFileCloudinaryUrl
+    this.handleSubmit = (e) => {
+      e.preventDefault();
+      console.log(this.name)
+      console.log(this.desc);
+      console.log(this.img)
+      var obj = {
+        name: this.name.value,
+        description: this.description.value,
+        image: this.state.uploadedFileCloudinaryUrl
+      }
+      // console.log(obj)
+      PostCrew(obj, props.user.id, function (err, data) {
+        if (err) {
+          console.log('error in posting');
+        }
+        if (data) {
+          props.getCurrentCrews(props.user.id);
+          name = '';
+          description = '';
+          setState({uploadedFileCloudinaryUrl: ''})
+        }
+      })
     }
-    console.log(obj)
-    PostCrew(obj, this.props.user.id, function (err, data) {
-      if (err) {
-        console.log('error in posting');
-      }
-      if (data) {
-        console.log(data, 'data from posting')
-      }
-    })
   }
 
   image(e) {
@@ -73,9 +75,10 @@ export default class CreateCrew extends Component {
   }
 
   render() {
+    console.log(this.props, 'yp')
     return (
       <div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        <form onSubmit={this.handleSubmit}>
           <FormGroup>
             <FormControl type="text" placeholder="Enter the name of Crew" name="crewname" inputRef={ref => this.name = ref} defaultValue={this.props.name}/><br/>
             <FormControl componentClass="textarea" placeholder="enter description" inputRef={ref => this.description = ref} defaultValue={this.props.desc}/><br/>
@@ -87,7 +90,7 @@ export default class CreateCrew extends Component {
               {this.state.uploadedFileCloudinaryUrl !== '' ?
               <div>
                 <p>{this.state.uploadedFile.name}</p>
-                <Image cloudName="sarikonda" publicId={this.state.uploadedFileCloudinaryUrl} width="200" crop="scale"/>
+                <Image cloudName="sarikonda" publicId={this.state.uploadedFileCloudinaryUrl} width="200" height="100" crop="scale"/>
               </div> : <div>
               <p>Drop an image or click to select a file to upload.</p>
               </div>}
