@@ -31,6 +31,7 @@ bower_components/
 
 # dotenv file
 .env
+config.js
 
 # floobits
 .floo
