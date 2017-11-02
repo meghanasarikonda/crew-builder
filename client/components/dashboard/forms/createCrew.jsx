@@ -13,6 +13,8 @@ export default class CreateCrew extends Component {
     super(props);
     this.state = {
       uploadedFileCloudinaryUrl: '',
+      name: '',
+      description: ''
     }
     // props contain name and unique details of user, so we can keep track of who created this crew  and store it in database accordingly
     this.handleSubmit = (e) => {
@@ -21,8 +23,8 @@ export default class CreateCrew extends Component {
       console.log(this.desc);
       console.log(this.img)
       var obj = {
-        name: this.name.value,
-        description: this.description.value,
+        name: this.state.name,
+        description: this.state.description,
         image: this.state.uploadedFileCloudinaryUrl
       }
       // console.log(obj)
@@ -32,9 +34,9 @@ export default class CreateCrew extends Component {
         }
         if (data) {
           props.getCurrentCrews(props.user.id);
-          name = '';
-          description = '';
-          setState({uploadedFileCloudinaryUrl: ''})
+          setState({name : '',
+            description : '',
+            uploadedFileCloudinaryUrl: ''})
         }
       })
     }
@@ -57,8 +59,8 @@ export default class CreateCrew extends Component {
   }
 
   handleImageUpload(file) {
-  let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                      .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+  let upload = request.post(process.env.cloudinary_url || CLOUDINARY_UPLOAD_URL)
+                      .field(process.env.upload_preset || 'upload_preset', CLOUDINARY_UPLOAD_PRESET)
                       .field('file', file)
 
   upload.end((err, response) => {
@@ -80,8 +82,8 @@ export default class CreateCrew extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <FormControl type="text" placeholder="Enter the name of Crew" name="crewname" inputRef={ref => this.name = ref} defaultValue={this.props.name}/><br/>
-            <FormControl componentClass="textarea" placeholder="enter description" inputRef={ref => this.description = ref} defaultValue={this.props.desc}/><br/>
+            <FormControl type="text" placeholder="Enter the name of Crew" name="crewname" onChange={e => this.setState({name: e.target.value})} defaultValue={this.props.name}/><br/>
+            <FormControl componentClass="textarea" placeholder="enter description" onChange={e => this.setState({description: e.target.value})} defaultValue={this.props.desc}/><br/>
             <Dropzone
               muliple="false"
               accept="image/*"
