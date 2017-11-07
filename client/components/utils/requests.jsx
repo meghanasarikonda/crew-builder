@@ -148,6 +148,7 @@ module.exports = {
         return response.json();
       })
       .then((data) => {
+        console.log('====', data, '======')
         cb(null, data);
       })
       .catch((error) => {

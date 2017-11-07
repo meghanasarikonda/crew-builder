@@ -21,6 +21,7 @@ export default class Sidebar extends Component {
                 <h4 className="sidebar-heading">My Crews:</h4>
                 <Nav bsStyle="pills" stacked>
                   {this.props.userLeaderCrews.map((container) => {
+                    //console.log(container, 'container from line 25 sidebar')
                     return (
                       <LinkContainer to={`/dashboard/manage/${container.crew.id}`} key={container.crew.id} onClick={() => this.props.setCurrentCrewLeader(container)}>
                         <NavItem activeKey={container.crew.id}
@@ -45,6 +46,7 @@ export default class Sidebar extends Component {
                 <h4 className="sidebar-heading">Crews I Follow:</h4>
                 <Nav bsStyle="pills" stacked>
                   {this.props.userMemberCrews.map((container, i) => {
+                    console.log(container, 'container line 49 sidebar')
                     return (
                       <LinkContainer to={`/dashboard/crews/${container.crew.id}`} key={i} onClick={() => this.props.setCurrentCrewMember(container)}>
                         <NavItem activeKey={container.crew.id}
