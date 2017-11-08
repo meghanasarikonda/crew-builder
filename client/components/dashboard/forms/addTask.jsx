@@ -6,6 +6,12 @@ import moment from 'moment';
 import 'moment/locale/en-ca';
 import DateTime from 'react-datetime';
 // expect props from manageTasks, related to updation of current tasks
+
+var yesterday = moment().subtract( 1, 'day' );
+var valid = function( current ){
+    return current.isAfter( yesterday );
+};
+
 export default class addTask extends Component {
   constructor(props) {
     super(props);
@@ -15,11 +21,17 @@ export default class addTask extends Component {
       points: this.props.points || 0,
       limit: this.props.limit || 0,
       expiry: '',
+      timeDiff: null
     };
 
     this.show = (e) => {
       var date = moment(e);
+      console.log(date.diff(moment()), 'date')
+      if (date.diff(moment()) <= 0) {
+        alert('please select appropriate expiry date')
+      }
       this.setState({
+        timeDiff: date.diff(moment()),
         expiry: date.format()
       });
     };
@@ -34,6 +46,10 @@ export default class addTask extends Component {
 
     this.handleSubmit = (e) => {
       e.preventDefault();
+      if (this.state.timeDiff <= 0) {
+        alert('please select appropriate expiry date!')
+      }
+      else {
       this.props.closeModal();
       // note: never set state in handleSubmit...
       let points = Number(this.state.points);
@@ -52,6 +68,7 @@ export default class addTask extends Component {
           this.props.getCrewTasks(this.props.currentCrew.crew.id);
         }
       });
+      }
     };
   }
 
@@ -76,7 +93,7 @@ export default class addTask extends Component {
           </FormGroup>
           <FormGroup>
             <ControlLabel>Expiry Date</ControlLabel>
-            <DateTime utc={true} onChange={(e) => this.show(e)}/>
+            <DateTime utc={true} onChange={(e) => this.show(e)} isValidDate={ valid }/>
           </FormGroup>
           <Button type="submit">
              Add a task
